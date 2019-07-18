@@ -16,9 +16,12 @@ export default class Screen {
     texture.format = THREE.RGBFormat;
 
     var uniforms = {
-      image: {value: texture},
-      weight: [0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216],
-      time: {value: Date.now()},
+      uImage: {value: texture},
+      uResolution: {
+        value: [1280, 720, 0],
+        resolution: new THREE.Uniform(new THREE.Vector3())
+      },
+      uTime: {value: Date.now()},
     };
 
     const geometry = new THREE.PlaneGeometry(1280, 720);

@@ -25,7 +25,7 @@ export default class Renderer {
       this.animate ()
 
       this.renderObjects.forEach((object) => {
-        object.material.uniforms.time.value = Date.now();
+        object.material.uniforms.uTime.value = Date.now();
         // console.log(((Math.sin(Date.now()/1000.0) + 1.0) * 0.5) * 10);
       });
     });
