@@ -1,0 +1,36 @@
+import vs from './shaders/vertex/default.glsl';
+import fs from './shaders/fragment/edgeDetection.glsl';
+
+export default class Screen {
+
+  constructor (opts) {
+    this.video = opts.video;
+
+    this._setup();
+  }
+
+  _setup () {
+    const texture = new THREE.VideoTexture(this.video);
+    texture.minFilter = THREE.LinearFilter;
+    texture.magFilter = THREE.LinearFilter;
+    texture.format = THREE.RGBFormat;
+
+    var uniforms = {
+      image: {value: texture},
+      weight: [0.227027, 0.1945946, 0.1216216, 0.054054, 0.016216],
+      time: {value: Date.now()},
+    };
+
+    const geometry = new THREE.PlaneGeometry(1280, 720);
+    const material = new THREE.ShaderMaterial({
+      uniforms: uniforms,
+      vertexShader: vs,
+      fragmentShader: fs,
+    });
+    this.plane = new THREE.Mesh(geometry, material);
+  }
+
+  get () {
+    return this.plane;
+  }
+}
