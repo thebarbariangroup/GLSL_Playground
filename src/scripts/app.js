@@ -8,15 +8,17 @@ import Screen from './app/Screen';
 
 const renderer = new Renderer();
 const webcam = new Webcam();
-const screen = new Screen({
-  video: webcam.getOutput(),
-});
 
 webcam.initializeCamera()
 .then(() => {
   return webcam.beginStream();
 })
 .then(() => {
+  const screen = new Screen({
+    renderer: renderer,
+    webcam: webcam,
+  });
+
   renderer.add(screen.get());
   renderer.animate();
 });

@@ -6,7 +6,7 @@ uniform vec3 uResolution;
 varying vec2 vTexCoord;
 
 float sigmoid(float a, float f) {
-  return 1.0/(1.0+exp(-f*a));
+  return 1./(1.0+exp(-f*a));
 }
 
 void main() {
@@ -50,8 +50,10 @@ void main() {
 
   // http://blog.ruofeidu.com/simplest-fatest-glsl-edge-detection-using-fwidth/
   float edgeStrength = length(fwidth(vec4(vec3(grey), 1.)));
-  edgeStrength = sigmoid(edgeStrength - 0.5, 5.0); 
-  gl_FragColor = vec4(edgeStrength, edgeStrength - 0.03, 0.0, 1.0); 
+  edgeStrength = sigmoid(edgeStrength - 0.15, 35.); 
+  gl_FragColor = vec4(edgeStrength, edgeStrength - 0.04, 0.0, 1.0); 
+  // gl_FragColor = fwidth(vec4(vec3(grey), 1.));
+
 }
 
 
