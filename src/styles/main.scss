@@ -1,12 +1,33 @@
+html {
+  width: 100%;
+  height: 100%;
+}
+
 body {
   background-color: #000;
   margin: 0;
   padding: 0;
   overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100% !important;
+  height: 100% !important;
+  transform: scale(-1, 1);
+  object-fit: contain;
+}
+
+video {
+  display: none;
+}
+
+#rendererContainer {
+  position: relative;
   width: 100%;
   height: 100%;
-  transform: scale(-1, 1);
 }

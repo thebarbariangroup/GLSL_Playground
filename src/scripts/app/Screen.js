@@ -57,14 +57,14 @@ export default class Screen {
     let width, height;
 
     if (d.renderer.wh > 1) {
-      width = d.renderer.width;
-      height = d.renderer.width * d.webcam.hw
-    } else {
       height = d.renderer.height;
       width = d.renderer.height * d.webcam.wh
+    } else {
+      width = d.renderer.width;
+      height = d.renderer.width * d.webcam.hw
     }
 
 
-    return new THREE.PlaneGeometry(width, height);
+    return new THREE.PlaneGeometry(1280, 720);
   }
 }
