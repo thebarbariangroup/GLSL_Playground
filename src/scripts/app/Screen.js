@@ -1,7 +1,7 @@
 import vs from './shaders/vertex/default.glsl';
 import fragments from './shaders/fragment/index';
 
-const fs = fragments.edgeDetection;
+const fs = fragments.greyscale;
 
 export default class Screen {
 
@@ -9,17 +9,20 @@ export default class Screen {
     this.renderer = opts.renderer;
     this.source = opts.source;
 
+    this.frame = 0;
+
     this._setup();
   }
 
   _setup () {
     this.texture = new THREE.VideoTexture(this.source.getOutput());
-    this.texture.minFilter = THREE.LinearFilter;
-    this.texture.magFilter = THREE.LinearFilter;
+    this.texture.minFilter = THREE.NearestFilter;
+    this.texture.magFilter = THREE.NearestFilter;
     this.texture.format = THREE.RGBFormat;
 
     var uniforms = {
-      uImage: {value: this.texture},
+      uImage0: {value: this.texture},
+      uImage1: {value: this.texture},
       uResolution: {
         value: [this.source.getWidth(), this.source.getHeight(), 0],
         resolution: new THREE.Uniform(new THREE.Vector3())
@@ -41,7 +44,7 @@ export default class Screen {
   }
 
   update () {
-    this.get().material.uniforms.uTime.value = Date.now();
+    // NOOP
   }
 
   _createGeometry () {

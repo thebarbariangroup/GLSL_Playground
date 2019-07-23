@@ -1,6 +1,6 @@
 #extension GL_OES_standard_derivatives : enable // To allow fwidth to be used.
 
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 
 varying vec2 vTexCoord;
@@ -31,20 +31,20 @@ void main() {
 
 //   //apply blurring, using a 9-tap filter with predefined gaussian weights
       
-//   sum += texture2D(uImage, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.0162162162;
-//   sum += texture2D(uImage, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.0540540541;
-//   sum += texture2D(uImage, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.1216216216;
-//   sum += texture2D(uImage, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.1945945946;
+//   sum += texture2D(uImage0, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.0162162162;
+//   sum += texture2D(uImage0, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.0540540541;
+//   sum += texture2D(uImage0, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.1216216216;
+//   sum += texture2D(uImage0, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.1945945946;
   
-//   sum += texture2D(uImage, vec2(tc.x, tc.y)) * 0.2270270270;
+//   sum += texture2D(uImage0, vec2(tc.x, tc.y)) * 0.2270270270;
   
-//   sum += texture2D(uImage, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.1945945946;
-//   sum += texture2D(uImage, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.1216216216;
-//   sum += texture2D(uImage, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.0540540541;
-//   sum += texture2D(uImage, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;
+//   sum += texture2D(uImage0, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.1945945946;
+//   sum += texture2D(uImage0, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.1216216216;
+//   sum += texture2D(uImage0, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.0540540541;
+//   sum += texture2D(uImage0, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;
 
-  // vec4 color = texture2D(uImage, vTexCoord) * vec4(sum.rgb, 1.0);
-  vec4 color = texture2D(uImage, vTexCoord.xy);
+  // vec4 color = texture2D(uImage0, vTexCoord) * vec4(sum.rgb, 1.0);
+  vec4 color = texture2D(uImage0, vTexCoord.xy);
 
   float grey = 0.21 * color.r + 0.71 * color.g + 0.07 * color.b;
 
@@ -61,7 +61,7 @@ void main() {
 // #define BSIGMA 0.1
 // #define MSIZE 15
 
-// uniform sampler2D uImage;
+// uniform sampler2D uImage0;
 // uniform vec3 uResolution;
 
 // varying vec2 vTexCoord;
@@ -78,7 +78,7 @@ void main() {
 
 
 // void main() {
-//   vec3 c = texture2D(uImage, vTexCoord).rgb;
+//   vec3 c = texture2D(uImage0, vTexCoord).rgb;
 
 //   // declare stuff
 //   const int kSize = (MSIZE-1)/2;
@@ -98,7 +98,7 @@ void main() {
 //   //read out the texels
 //   for (int i=-kSize; i <= kSize; ++i) {
 //     for (int j=-kSize; j <= kSize; ++j) {
-//       cc = texture2D(uImage, (vTexCoord.xy + vec2(float(i)/uResolution.x,float(j)/uResolution.y))).rgb;
+//       cc = texture2D(uImage0, (vTexCoord.xy + vec2(float(i)/uResolution.x,float(j)/uResolution.y))).rgb;
 //       factor = normpdf3(cc-c, BSIGMA)*bZ*kernel[kSize+j]*kernel[kSize+i];
 //       Z += factor;
 //       final_colour += factor*cc;

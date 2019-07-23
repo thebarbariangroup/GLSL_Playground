@@ -27,6 +27,26 @@ export default class Renderer {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.domElement.id = 'renderer';
     document.getElementById('rendererContainer').appendChild(this.renderer.domElement);
+
+    this.bufferScene = new THREE.Scene();
+    this.bufferTexture = new THREE.WebGLRenderTarget( 
+      window.innerWidth, 
+      window.innerHeight, { 
+        minFilter: THREE.LinearFilter, 
+        magFilter: THREE.NearestFilter
+      }
+    );
+
+    this.bufferTexture.autoClear = false;
+
+    const geometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+    const material = new THREE.MeshBasicMaterial({ 
+      map: this.bufferTexture, 
+      side: THREE.DoubleSide,
+    });
+    const plane = new THREE.Mesh(geometry, material);
+
+    this.scene.add(plane);
   }
 
   _getDimensions (force) {
@@ -44,19 +64,21 @@ export default class Renderer {
   }
 
   animate () {
-    requestAnimationFrame(() => {
-      this.renderer.render( this.scene, this.camera );
-      this.animate ()
+    setInterval(() => {
+      this.renderer.setRenderTarget(this.bufferTexture);
+      this.renderer.render(this.bufferScene, this.camera);
+      this.renderer.setRenderTarget(null);
 
+      this.renderer.render(this.scene, this.camera);
       this.renderObjects.forEach((object) => {
         object.update();
       });
-    });
+    }, 1000/30);
   }
 
   add (object) {
     this.renderObjects.push(object);
-    this.scene.add(object.get());
+    this.bufferScene.add(object.get());
   }
 
   getHeight() {

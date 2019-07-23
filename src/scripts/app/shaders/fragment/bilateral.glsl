@@ -2,7 +2,7 @@
 #define BSIGMA 0.1
 #define MSIZE 15
 
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 
 varying vec2 vTexCoord;
@@ -19,7 +19,7 @@ float normpdf3(in vec3 v, in float sigma)
 
 
 void main() {
-  vec3 c = texture2D(uImage, vTexCoord).rgb;
+  vec3 c = texture2D(uImage0, vTexCoord).rgb;
 
   // declare stuff
   const int kSize = (MSIZE-1)/2;
@@ -39,7 +39,7 @@ void main() {
   //read out the texels
   for (int i=-kSize; i <= kSize; ++i) {
     for (int j=-kSize; j <= kSize; ++j) {
-      cc = texture2D(uImage, (vTexCoord.xy + vec2(float(i)/uResolution.x,float(j)/uResolution.y))).rgb;
+      cc = texture2D(uImage0, (vTexCoord.xy + vec2(float(i)/uResolution.x,float(j)/uResolution.y))).rgb;
       factor = normpdf3(cc-c, BSIGMA)*bZ*kernel[kSize+j]*kernel[kSize+i];
       Z += factor;
       final_colour += factor*cc;
