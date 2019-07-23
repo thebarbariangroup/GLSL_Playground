@@ -13,7 +13,7 @@ export default class Screen {
   }
 
   _setup () {
-    this.texture = new THREE.CanvasTexture(this.source.getOutput());
+    this.texture = new THREE.VideoTexture(this.source.getOutput());
     this.texture.minFilter = THREE.LinearFilter;
     this.texture.magFilter = THREE.LinearFilter;
     this.texture.format = THREE.RGBFormat;
@@ -41,7 +41,6 @@ export default class Screen {
   }
 
   update () {
-    this.texture.needsUpdate = true;
     this.get().material.uniforms.uTime.value = Date.now();
   }
 

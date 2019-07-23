@@ -4,10 +4,8 @@ window.THREE = THREE;
 
 import Renderer from './app/Renderer';
 import Webcam from './app/Webcam';
-import CanvasSource from './app/CanvasSource';
 import Screen from './app/Screen';
 
-const renderer = new Renderer();
 const webcam = new Webcam();
 
 webcam.initializeCamera()
@@ -15,13 +13,11 @@ webcam.initializeCamera()
   return webcam.beginStream();
 })
 .then(() => {
-  const source = new CanvasSource({
-    webcam: webcam,
-  });
-
+  const renderer = new Renderer();
+  
   const screen = new Screen({
     renderer: renderer,
-    source: source,
+    source: webcam,
   });
 
   renderer.add(screen);
