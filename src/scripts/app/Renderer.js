@@ -25,7 +25,8 @@ export default class Renderer {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById('rendererContainer').appendChild( this.renderer.domElement );
+    this.renderer.domElement.id = 'renderer';
+    document.getElementById('rendererContainer').appendChild(this.renderer.domElement);
   }
 
   _getDimensions (force) {
@@ -48,14 +49,14 @@ export default class Renderer {
       this.animate ()
 
       this.renderObjects.forEach((object) => {
-        object.material.uniforms.uTime.value = Date.now();
+        object.update();
       });
     });
   }
 
   add (object) {
     this.renderObjects.push(object);
-    this.scene.add(object);
+    this.scene.add(object.get());
   }
 
   getHeight() {

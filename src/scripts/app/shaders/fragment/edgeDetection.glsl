@@ -1,4 +1,4 @@
-#extension GL_OES_standard_derivatives : enable
+#extension GL_OES_standard_derivatives : enable // To allow fwidth to be used.
 
 uniform sampler2D uImage;
 uniform vec3 uResolution;
@@ -44,13 +44,13 @@ void main() {
 //   sum += texture2D(uImage, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.0162162162;
 
   // vec4 color = texture2D(uImage, vTexCoord) * vec4(sum.rgb, 1.0);
-  vec4 color = texture2D(uImage, vTexCoord);
+  vec4 color = texture2D(uImage, vTexCoord.xy);
 
   float grey = 0.21 * color.r + 0.71 * color.g + 0.07 * color.b;
 
   // http://blog.ruofeidu.com/simplest-fatest-glsl-edge-detection-using-fwidth/
   float edgeStrength = length(fwidth(vec4(vec3(grey), 1.)));
-  edgeStrength = sigmoid(edgeStrength - 0.15, 35.); 
+  edgeStrength = sigmoid(edgeStrength - 0.15, 20.); 
   gl_FragColor = vec4(edgeStrength, edgeStrength - 0.04, 0.0, 1.0); 
   // gl_FragColor = fwidth(vec4(vec3(grey), 1.));
 

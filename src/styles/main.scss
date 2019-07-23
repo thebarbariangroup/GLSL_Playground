@@ -12,7 +12,13 @@ body {
   height: 100%;
 }
 
-canvas {
+#rendererContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#renderer {
   position: absolute;
   top: 0;
   left: 0;
@@ -20,14 +26,4 @@ canvas {
   height: 100% !important;
   transform: scale(-1, 1);
   object-fit: contain;
-}
-
-video {
-  display: none;
-}
-
-#rendererContainer {
-  position: relative;
-  width: 100%;
-  height: 100%;
 }

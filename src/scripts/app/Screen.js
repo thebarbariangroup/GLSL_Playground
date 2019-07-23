@@ -1,25 +1,27 @@
 import vs from './shaders/vertex/default.glsl';
-import fs from './shaders/fragment/edgeDetection.glsl';
+import fragments from './shaders/fragment/index';
+
+const fs = fragments.edgeDetection;
 
 export default class Screen {
 
   constructor (opts) {
     this.renderer = opts.renderer;
-    this.webcam = opts.webcam;
+    this.source = opts.source;
 
     this._setup();
   }
 
   _setup () {
-    const texture = new THREE.VideoTexture(this.webcam.getOutput());
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBFormat;
+    this.texture = new THREE.CanvasTexture(this.source.getOutput());
+    this.texture.minFilter = THREE.LinearFilter;
+    this.texture.magFilter = THREE.LinearFilter;
+    this.texture.format = THREE.RGBFormat;
 
     var uniforms = {
-      uImage: {value: texture},
+      uImage: {value: this.texture},
       uResolution: {
-        value: [this.webcam.getWidth(), this.webcam.getHeight(), 0],
+        value: [this.source.getWidth(), this.source.getHeight(), 0],
         resolution: new THREE.Uniform(new THREE.Vector3())
       },
       uTime: {value: Date.now()},
@@ -38,6 +40,11 @@ export default class Screen {
     return this.plane;
   }
 
+  update () {
+    this.texture.needsUpdate = true;
+    this.get().material.uniforms.uTime.value = Date.now();
+  }
+
   _createGeometry () {
     const d = {
       renderer: {
@@ -46,11 +53,11 @@ export default class Screen {
         wh: this.renderer.getWidth()/this.renderer.getHeight(),
         hw: this.renderer.getHeight()/this.renderer.getWidth()
       },
-      webcam: {
-        width: this.webcam.getWidth(),
-        height: this.webcam.getHeight(),
-        wh: this.webcam.getWidth()/this.webcam.getHeight(),
-        hw: this.webcam.getHeight()/this.webcam.getWidth()
+      source: {
+        width: this.source.getWidth(),
+        height: this.source.getHeight(),
+        wh: this.source.getWidth()/this.source.getHeight(),
+        hw: this.source.getHeight()/this.source.getWidth()
       }
     };
 
@@ -58,10 +65,10 @@ export default class Screen {
 
     if (d.renderer.wh > 1) {
       height = d.renderer.height;
-      width = d.renderer.height * d.webcam.wh
+      width = d.renderer.height * d.source.wh
     } else {
       width = d.renderer.width;
-      height = d.renderer.width * d.webcam.hw
+      height = d.renderer.width * d.source.hw
     }
 
 

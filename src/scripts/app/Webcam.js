@@ -11,6 +11,7 @@ export default class Webcam {
   getOutput () {
     if (!this.output) {
       this.output = document.createElement('video');
+      this.output.style.display = 'none';
       document.body.appendChild(this.output);
     }
     return this.output;
