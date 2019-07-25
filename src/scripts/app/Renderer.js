@@ -68,8 +68,8 @@ export default class Renderer {
 
   _getDimensions (force) {
     if (force) {
-      const width = Math.min(window.innerWidth, this.resolution.width);
-      const height = Math.min(window.innerHeight, this.resolution.height);
+      const width = this.resolution.width;
+      const height = this.resolution.height;
 
       this.dimensions = {
         width,
