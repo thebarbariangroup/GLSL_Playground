@@ -1,7 +1,7 @@
 import vs from './shaders/vertex/default.glsl';
 import fragments from './shaders/fragment/index';
 
-const fs = fragments.spaghetti;
+const fs = fragments.edgeDetection;
 
 export default class Screen {
 
@@ -75,6 +75,6 @@ export default class Screen {
     }
 
 
-    return new THREE.PlaneGeometry(d.renderer.width, d.renderer.height);
+    return new THREE.PlaneGeometry(width, height);
   }
 }

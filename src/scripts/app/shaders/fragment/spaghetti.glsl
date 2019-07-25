@@ -10,7 +10,8 @@ mat2 rotm;
 vec3 basecol=vec3(.5,.5,1.);
 
 mat3 lookat(vec3 dir, vec3 up){
-  dir=normalize(dir);vec3 rt=normalize(cross(dir,normalize(up)));
+  dir=normalize(dir);
+  vec3 rt=normalize(cross(dir,normalize(up)));
   return mat3(rt,cross(rt,dir),dir);
 }
 
@@ -64,16 +65,16 @@ vec3 march(vec3 from, vec3 dir) {
 
 void main ()
 {
-    vec2 uv=vTexCoord;
-    // uv.x*=uResolution.x/uResolution.y;
-    rotm=rot2D(-90.);
-    vec3 dir=normalize(vec3(uv,.7));
-    vec3 from=vec3(1.,2.,-5.);
-    // from.xz*=rot2D(uTime*3.);
-    // from.yz*=rot2D(uTime);
-    // dir=lookat(-from,vec3(.5,1.,0.))*dir;
+  vec2 uv=vTexCoord*0.5;
+  uv.x*=uResolution.x/uResolution.y;
+  rotm=rot2D(-90.);
+  vec3 dir=normalize(vec3(uv,.7));
+  vec3 from=vec3(1.,2.,-5.);
+  // from.xz*=rot2D(uTime*3.);
+  // from.yz*=rot2D(uTime);
+  dir=lookat(-from,vec3(.5,1.,0.))*dir;
   vec3 col=march(from, dir);   
   // col=mix(vec3(1.),col,min(1.,uTime*.2));
-    // col=min(col,1.-smoothstep(.85,1.,abs(1.-mod(uv.y*60.,2.)))*.4);
-    gl_FragColor = vec4(col,1.0);
+  col=min(col,1.-smoothstep(.85,1.,abs(1.-mod(uv.y*60.,2.)))*.4);
+  gl_FragColor = vec4(col,1.0);
 }
