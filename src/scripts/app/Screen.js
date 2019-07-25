@@ -1,30 +1,34 @@
 import vs from './shaders/vertex/default.glsl';
 import fragments from './shaders/fragment/index';
 
-const fs = fragments.edgeDetection;
+const fs = fragments.spaghetti;
 
 export default class Screen {
 
   constructor (opts) {
     this.renderer = opts.renderer;
     this.source = opts.source;
+    this.timeStarted = Date.now() / 1000;
 
     this._setup();
   }
 
   _setup () {
     this.texture = new THREE.VideoTexture(this.source.getOutput());
+    this.texture.wrapS = THREE.ClampToEdgeWrapping;
+    this.texture.wrapT = THREE.ClampToEdgeWrapping;
+    this.texture.repeat.set( 4, 4 );
     this.texture.minFilter = THREE.LinearFilter;
     this.texture.magFilter = THREE.LinearFilter;
     this.texture.format = THREE.RGBFormat;
 
-    var uniforms = {
-      uImage: {value: this.texture},
+    const uniforms = {
+      uImage: { value: this.texture },
       uResolution: {
         value: [this.source.getWidth(), this.source.getHeight(), 0],
         resolution: new THREE.Uniform(new THREE.Vector3())
       },
-      uTime: {value: Date.now()},
+      uTime: { value: this.timeStarted },
     };
 
     const geometry = this._createGeometry();
@@ -41,7 +45,7 @@ export default class Screen {
   }
 
   update () {
-    this.get().material.uniforms.uTime.value = Date.now();
+    this.get().material.uniforms.uTime.value = Date.now() / 1000 - this.timeStarted;
   }
 
   _createGeometry () {
@@ -71,6 +75,6 @@ export default class Screen {
     }
 
 
-    return new THREE.PlaneGeometry(1280, 720);
+    return new THREE.PlaneGeometry(d.renderer.width, d.renderer.height);
   }
 }

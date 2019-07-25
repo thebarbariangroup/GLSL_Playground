@@ -1,21 +1,31 @@
+const LO_DEF = [640, 360];
+const MD_DEF = [1280, 720];
+const HI_DEF = [2560, 1440];
+
 export default class Renderer {
 
   constructor () {
     this.dimensions = null;
+    this.resolution = {
+      width: 0,
+      height: 0
+    };
 
     this._setup();
     this.renderObjects = [];
   }
 
   _setup () {
+    this._setResolution();
+
     this.scene = new THREE.Scene();
-    const dimensions = this._getDimensions(true);
+    const d = this._getDimensions(true);
 
     this.camera = new THREE.OrthographicCamera(
-      dimensions.width/-2,  
-      dimensions.width/2, 
-      dimensions.height/2, 
-      dimensions.height/-2, 
+      d.width/-2,  
+      d.width/2, 
+      d.height/2, 
+      d.height/-2, 
       1, 
       1000
     );
@@ -24,15 +34,42 @@ export default class Renderer {
 
 
     this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.setSize(d.width, d.height);
     this.renderer.domElement.id = 'renderer';
     document.getElementById('rendererContainer').appendChild(this.renderer.domElement);
   }
 
+  _setResolution () {
+    const resolution = this._getResolutionFromQuery();
+    [this.resolution.width, this.resolution.height] = resolution;
+  }
+
+  _getResolutionFromQuery () {
+    const resolutionMap = {
+      low: LO_DEF,
+      mid: MD_DEF,
+      high: HI_DEF
+    };
+
+    const queryString = location.search.replace('?', '');
+    const queryStringMap = {};
+
+    queryString.split('&').forEach((qsPair) => {
+      const splitPair = qsPair.split('=');
+      queryStringMap[splitPair[0]] = splitPair[1];
+    });
+
+    const requestedResolution = queryStringMap.res;
+    
+    const resolution = resolutionMap[requestedResolution];
+
+    return resolution ? resolution : LO_DEF;
+  }
+
   _getDimensions (force) {
     if (force) {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
+      const width = Math.min(window.innerWidth, this.resolution.width);
+      const height = Math.min(window.innerHeight, this.resolution.height);
 
       this.dimensions = {
         width,
@@ -46,7 +83,7 @@ export default class Renderer {
   animate () {
     requestAnimationFrame(() => {
       this.renderer.render( this.scene, this.camera );
-      this.animate ()
+      this.animate();
 
       this.renderObjects.forEach((object) => {
         object.update();
