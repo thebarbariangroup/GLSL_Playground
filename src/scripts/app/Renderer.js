@@ -15,6 +15,7 @@ export default class Renderer {
 
     this._setup();
     this.renderObjects = [];
+    this.frameBuffers = [];
   }
 
   _setup () {
@@ -85,18 +86,27 @@ export default class Renderer {
 
   animate () {
     requestAnimationFrame(() => {
-      this.renderer.render( this.scene, this.camera );
-      this.animate();
+      this.frameBuffers.forEach((frameBuffer) => {
+        frameBuffer.update();
+      });
 
       this.renderObjects.forEach((object) => {
         object.update();
       });
+
+      this.renderer.render( this.scene, this.camera );
+
+      this.animate();
     });
   }
 
   add (object) {
     this.renderObjects.push(object);
     this.scene.add(object.get());
+  }
+
+  addFrameBuffer (frameBuffer) {
+    this.frameBuffers.push(frameBuffer);
   }
 
   getHeight() {
