@@ -8,6 +8,7 @@ import greyscale from './greyscale.glsl';
 import test from './test.glsl';
 import twister from './twister.glsl';
 import spaghetti from './spaghetti.glsl';
+import spirals from './spirals.glsl';
 
 export default {
   base,
@@ -20,4 +21,5 @@ export default {
   test,
   twister,
   spaghetti,
+  spirals,
 }

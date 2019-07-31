@@ -24,16 +24,16 @@ export default class Renderer {
     this.scene = new THREE.Scene();
     const d = this._getDimensions(true);
 
-    this.camera = new THREE.OrthographicCamera(
-      d.width/-2,  
-      d.width/2, 
-      d.height/2, 
-      d.height/-2, 
-      1, 
-      1000
-    );
-    this.camera.position.set(0, 0, 90);
-    this.camera.rotation.x = Math.PI / 180;
+    // this.camera = new THREE.OrthographicCamera(
+    //   d.width/-2,  
+    //   d.width/2, 
+    //   d.height/2, 
+    //   d.height/-2, 
+    //   1, 
+    //   1000
+    // );
+    // this.camera.position.set(0, 0, 90);
+    // this.camera.rotation.x = Math.PI / 180;
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(d.width, d.height);
@@ -90,11 +90,11 @@ export default class Renderer {
         frameBuffer.update();
       });
 
-      this.renderObjects.forEach((object) => {
-        object.update();
-      });
+      // this.renderObjects.forEach((object) => {
+      //   object.update();
+      // });
 
-      this.renderer.render( this.scene, this.camera );
+      // this.renderer.render( this.scene, this.camera );
 
       this.animate();
     });

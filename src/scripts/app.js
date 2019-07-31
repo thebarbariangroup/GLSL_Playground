@@ -2,9 +2,12 @@ import '../styles/main.scss';
 import * as THREE from 'three';
 window.THREE = THREE;
 
+import vs from './app/shaders/vertex/default.glsl';
+import fs from './app/shaders/fragment/index';
+
 import Renderer from './app/Renderer';
+import FrameBufferFactory from './app/FrameBufferFactory';
 import Webcam from './app/Webcam';
-import FrameBuffer from './app/FrameBuffer';
 import Screen from './app/Screen';
 
 const webcam = new Webcam();
@@ -16,18 +19,23 @@ webcam.initializeCamera()
 .then(() => {
   const renderer = new Renderer();
 
-  const frameBuffer0 = new FrameBuffer({
+  const frameBufferFactory = new FrameBufferFactory({
     renderer: renderer,
     source: webcam,
-  });
-  
-  const screen = new Screen({
-    renderer: renderer,
-    source: frameBuffer0,
+    shaders: {
+      vs: vs,
+      fs: fs.base,
+    }
   });
 
-  renderer.addFrameBuffer(frameBuffer0);
-  renderer.add(screen);
+  const frameBuffers = frameBufferFactory.create([
+    fs.edgeDetection, 
+    fs.greyscale,
+  ]);
+  
+  frameBuffers.forEach((frameBuffer) => {
+    renderer.addFrameBuffer(frameBuffer);
+  });
   renderer.animate();
 });
 

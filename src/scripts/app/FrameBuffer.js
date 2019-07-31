@@ -8,6 +8,8 @@ export default class FrameBuffer {
   constructor (opts) {
     this.renderer = opts.renderer;
     this.source = opts.source;
+    this.shaders = opts.shaders || {};
+    this.finalFrameBuffer = opts.finalFrameBuffer;
     this.timeStarted = Date.now() / 1000;
 
     this._setup();
@@ -39,10 +41,7 @@ export default class FrameBuffer {
   }
 
   _createPlane () {
-    const texture = new THREE.VideoTexture(this.source.getOutput());
-    texture.minFilter = THREE.LinearFilter;
-    texture.magFilter = THREE.LinearFilter;
-    texture.format = THREE.RGBFormat;
+    const texture = this._createTexture();
 
     const uniforms = {
       uImage: { value: texture },
@@ -56,11 +55,26 @@ export default class FrameBuffer {
     const geometry = this._createGeometry();
     const material = new THREE.ShaderMaterial({
       uniforms: uniforms,
-      vertexShader: vs,
-      fragmentShader: fs,
+      vertexShader: this.shaders.vs,
+      fragmentShader: this.shaders.fs,
     });
 
     return new THREE.Mesh(geometry, material);
+  }
+
+  _createTexture () {
+    const sourceType = this.source.constructor.name;
+
+    switch (sourceType) {
+      case 'Webcam':
+        const texture = new THREE.VideoTexture(this.source.getOutput());
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+        texture.format = THREE.RGBFormat;
+        return texture;
+      case 'FrameBuffer':
+        return this.source.getOutput();
+    }
   }
 
   _createGeometry () {
@@ -109,7 +123,9 @@ export default class FrameBuffer {
   }
 
   update () {
-    this.renderer.renderer.setRenderTarget(this.renderTarget);
+    if (!this.finalFrameBuffer) {
+      this.renderer.renderer.setRenderTarget(this.renderTarget);
+    }
     this.renderer.renderer.render(this.scene, this.camera);
     this.renderer.renderer.setRenderTarget(null);
 

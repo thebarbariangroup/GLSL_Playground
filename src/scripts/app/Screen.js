@@ -1,13 +1,9 @@
-import vs from './shaders/vertex/default.glsl';
-import fragments from './shaders/fragment/index';
-
-const fs = fragments.base;
-
 export default class Screen {
 
   constructor (opts) {
     this.renderer = opts.renderer;
     this.source = opts.source;
+    this.shaders = opts.shaders || {};
     this.timeStarted = Date.now() / 1000;
 
     this._setup();
@@ -26,8 +22,8 @@ export default class Screen {
     const geometry = this._createGeometry();
     const material = new THREE.ShaderMaterial({
       uniforms: uniforms,
-      vertexShader: vs,
-      fragmentShader: fs,
+      vertexShader: this.shaders.vs,
+      fragmentShader: this.shaders.fs,
     });
     this.plane = new THREE.Mesh(geometry, material);
   }
