@@ -1,6 +1,8 @@
 const LO_DEF = [640, 360];
 const MD_DEF = [1280, 720];
 const HI_DEF = [2560, 1440];
+const SH_DEF = [5120, 2880];
+const SQUARE = [512, 512];
 
 export default class Renderer {
 
@@ -29,9 +31,8 @@ export default class Renderer {
       1, 
       1000
     );
-    this.camera.position.set(0, 0, 10);
+    this.camera.position.set(0, 0, 90);
     this.camera.rotation.x = Math.PI / 180;
-
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(d.width, d.height);
@@ -48,7 +49,9 @@ export default class Renderer {
     const resolutionMap = {
       low: LO_DEF,
       mid: MD_DEF,
-      high: HI_DEF
+      high: HI_DEF,
+      super: SH_DEF,
+      square: SQUARE,
     };
 
     const queryString = location.search.replace('?', '');

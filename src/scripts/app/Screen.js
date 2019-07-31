@@ -15,9 +15,9 @@ export default class Screen {
 
   _setup () {
     this.texture = new THREE.VideoTexture(this.source.getOutput());
-    this.texture.wrapS = THREE.ClampToEdgeWrapping;
-    this.texture.wrapT = THREE.ClampToEdgeWrapping;
-    this.texture.repeat.set( 4, 4 );
+    this.texture.wrapS = THREE.RepeatWrapping;
+    this.texture.wrapT = THREE.RepeatWrapping;
+    this.texture.repeat.set( 400, 400 );
     this.texture.minFilter = THREE.LinearFilter;
     this.texture.magFilter = THREE.LinearFilter;
     this.texture.format = THREE.RGBFormat;
