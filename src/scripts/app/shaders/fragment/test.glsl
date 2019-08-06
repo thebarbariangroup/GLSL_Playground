@@ -1,18 +1,18 @@
 uniform sampler2D uImage;
+uniform vec3 uResolution;
 uniform float uTime;
 
 varying vec2 vTexCoord;
 
-void main()
-{   
-    for (int i=-kSize; i <= kSize; ++i) {
-      for (int j=-kSize; j <= kSize; ++j) {
-        c = texture2D(uImage, (vTexCoord.xy + vec2(float(i)/uResolution.x,float(j)/uResolution.y))).rgb;
-        factor = normpdf3(cc-c, BSIGMA)*bZ*kernel[kSize+j]*kernel[kSize+i];
-        Z += factor;
-        final_colour += factor*cc;
-      }
-    }
+const float PI = 3.1415926535897932384626433832795;
 
-    gl_FragColor = vec4(1., 0., 0., 1.);
+
+void main() {
+  // vec4 color = texture2D(uImage, vTexCoord);
+  vec2 c = vTexCoord - vec2(0.5,0.5);
+
+  float d = (0.3 - distance(vec2(0.), vec2(c.x, c.y * c.y)));
+
+
+  gl_FragColor = vec4(d, 0., 0., 1.);
 }
