@@ -1,8 +1,3 @@
-import vs from './shaders/vertex/default.glsl';
-import fragments from './shaders/fragment/index';
-
-const fs = fragments.edgeDetection;
-
 export default class FrameBuffer {
 
   constructor (opts) {

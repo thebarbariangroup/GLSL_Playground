@@ -2,7 +2,7 @@ import '../styles/main.scss';
 import * as THREE from 'three';
 window.THREE = THREE;
 
-import vs from './app/shaders/vertex/default.glsl';
+import vs from './app/shaders/vertex/default.vert';
 import fs from './app/shaders/fragment/index';
 
 import Renderer from './app/Renderer';
