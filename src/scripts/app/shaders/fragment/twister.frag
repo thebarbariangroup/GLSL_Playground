@@ -1,4 +1,4 @@
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 uniform float uTime;
 
@@ -27,7 +27,7 @@ void main()
     uv.x = uTime + 1.0/(r + .1*s);
     uv.y = 3.0*a/3.1416;
 
-    vec3 col = texture2D( uImage, uv ).xyz;
+    vec3 col = texture2D( uImage0, uv ).xyz;
 
     float ao = smoothstep(0.0,0.3,h)-smoothstep(0.5,1.0,h);
     col *= 1.0 - 0.6*ao*r;

@@ -1,10 +1,16 @@
 export default class FrameBuffer {
 
   constructor (opts) {
+    this.id = opts.id;
     this.renderer = opts.renderer;
+    this.finalFrameBuffer = opts.finalFrameBuffer; // If true, render to the THREE.js renderer instead of a framebuffer
     this.source = opts.source;
     this.shaders = opts.shaders || {};
-    this.finalFrameBuffer = opts.finalFrameBuffer;
+    this.customUniforms = opts.uniforms || {};
+    this.output = opts.output || null;
+    
+    this.texture = null;
+    
     this.timeStarted = Date.now() / 1000;
 
     this._setup();
@@ -21,7 +27,7 @@ export default class FrameBuffer {
     const width = this.renderer.getWidth();
     const height = this.renderer.getHeight();
 
-    const renderTarget = new THREE.WebGLRenderTarget(width, height);
+    const renderTarget = this.output || new THREE.WebGLRenderTarget(width, height);
     const scene = new THREE.Scene();
 
     const camera = new THREE.OrthographicCamera(
@@ -36,16 +42,17 @@ export default class FrameBuffer {
   }
 
   _createPlane () {
-    const texture = this._createTexture();
+    this.texture = this._createTexture();
 
     const uniforms = {
-      uImage: { value: texture },
+      uImage0: { value: this.texture },
       uResolution: {
         value: [this.renderer.getWidth(), this.renderer.getHeight(), 0],
         resolution: new THREE.Uniform(new THREE.Vector3())
       },
       uTime: { value: this.timeStarted },
     };
+    Object.assign(uniforms, this.customUniforms);
 
     const geometry = this._createGeometry();
     const material = new THREE.ShaderMaterial({
@@ -99,6 +106,10 @@ export default class FrameBuffer {
     }
 
     return new THREE.PlaneGeometry(width, height);
+  }
+
+  getRenderTarget () {
+    return this.renderTarget;
   }
 
   getOutput () {

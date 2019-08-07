@@ -1,6 +1,6 @@
 #extension GL_OES_standard_derivatives : enable
 
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 
 varying vec2 vTexCoord;
@@ -10,7 +10,7 @@ float sigmoid(float a, float f) {
 }
 
 void main() {
-  vec4 color = texture2D(uImage, vTexCoord);
+  vec4 color = texture2D(uImage0, vTexCoord);
 
   float grey = 0.21 * color.r + 0.71 * color.g + 0.07 * color.b;
 

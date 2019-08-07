@@ -1,4 +1,4 @@
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 uniform float uTime;
 
@@ -23,5 +23,5 @@ void main() {
   //   uv.y = 1.0 - uv.y;
   // }
 
-  gl_FragColor = blur9(uImage, uv, uResolution.xy, vec2(sin(uTime) * 0., cos(uTime) * 0.));
+  gl_FragColor = blur9(uImage0, uv, uResolution.xy, vec2(sin(uTime) * 0., cos(uTime) * 0.));
 }

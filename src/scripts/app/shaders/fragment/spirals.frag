@@ -1,4 +1,4 @@
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform float uTime;
 
 varying vec2 vTexCoord;

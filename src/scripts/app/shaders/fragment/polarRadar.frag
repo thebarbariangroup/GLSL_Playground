@@ -1,4 +1,4 @@
-uniform sampler2D uImage;
+uniform sampler2D uImage0;
 uniform vec3 uResolution;
 uniform float uTime;
 
@@ -16,7 +16,7 @@ mat4 rotateZ( in float angle ) {
 }
 
 void main() {
-  vec4 color = texture2D(uImage, vTexCoord);
+  vec4 color = texture2D(uImage0, vTexCoord);
   vec4 x = vec4(vTexCoord - vec2(0.5,0.5), 0., 1.);
   float rotationRadians = fract(uTime/5.) * -2. * PI;
 
