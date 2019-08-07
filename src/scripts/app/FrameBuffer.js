@@ -35,8 +35,7 @@ export default class FrameBuffer {
       height/2, height/-2, 
       1,        1000
     );
-    camera.position.set(0, 0, 90);
-    camera.rotation.x = Math.PI / 180;
+    camera.position.set(0, 0, 200);
 
     return [renderTarget, scene, camera];
   }

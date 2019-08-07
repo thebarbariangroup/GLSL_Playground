@@ -13,8 +13,8 @@ void main() {
   // vec2 c = vTexCoord - vec2(0.5,0.5);
 
   // float d = (0.3 - distance(vec2(0.), vec2(c.x, c.y * c.y)));
-  vec4 c0 = texture2D(uImage0, vTexCoord);
-  vec4 c1 = texture2D(uImage0, vTexCoord);
+  vec4 c0 = texture2D(uImage0, vTexCoord - vec2(0., 1./uResolution.y));
+  vec4 c1 = texture2D(uImage1, vTexCoord);
 
-  gl_FragColor = c1 + c0;
+  gl_FragColor = c0 * .99 + c1;
 }

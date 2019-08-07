@@ -37,7 +37,7 @@ webcam.initializeCamera()
 .then(() => {
   const outputBuffers = outputFactory.create([
     {
-      id: 'test0',
+      id: 'o0',
     },
   ]);
   const outputBuffer = outputBuffers[0];
@@ -50,24 +50,24 @@ webcam.initializeCamera()
       },
     },
     {
-      id: 'result1',
       source: outputBuffer,
     },
     {
-      id: 'test1',
-      source: 'edge0',
       shaders: {
-        fs: fs.test,
+        fs: fs.polarRadar,
+      }
+    },
+    {
+      id: 'smoke0',
+      shaders: {
+        fs: fs.smoke,
       },
       uniforms: {
         uImage1: 'edge0',
       },
       output: outputBuffer,
     },
-    {
-      id: 'result2',
-      source: outputBuffer
-    },
+    {}
   ]);
   
   frameBuffers.forEach((frameBuffer) => {

@@ -47,21 +47,8 @@ export default class FrameBufferFactory {
   _setSource (customSource) {
     const defaultSource = this.previousFrameBuffer || this.source;
     if (!customSource) { return defaultSource; }
-
-    const type = typeof customSource;
-    let frameBuffer;
-
-    switch (type) {
-      case 'string':
-        frameBuffer = this._getFrameBufferById(customSource);
-        break;
-
-      case 'object':
-        frameBuffer = customSource;
-        break;
-    }
     
-    
+    const frameBuffer = this._getFrameBuffer(customSource);
     return frameBuffer || defaultSource;
   }
 
@@ -73,7 +60,7 @@ export default class FrameBufferFactory {
     for (let key in customUniforms) {
       const value = customUniforms[key];
       // Assuming for now that all custom Uniforms are IDs of framebuffers that we need to get the texture of.
-      const frameBuffer = this._getFrameBufferById(value);
+      const frameBuffer = this._getFrameBuffer(value);
       customUniforms[key] = { value: frameBuffer.getOutput() }
     }
 
@@ -83,21 +70,20 @@ export default class FrameBufferFactory {
   _setOutput (customOutput) {
     if (!customOutput) { return null; }
 
-    const type = typeof customOutput;
-    let frameBuffer;
+    const frameBuffer = this._getFrameBuffer(customOutput);
+    return frameBuffer.getRenderTarget();
+  }
+
+  _getFrameBuffer (idOrBuffer) {
+    const type = typeof idOrBuffer;
 
     switch (type) {
       case 'string':
-        frameBuffer = this._getFrameBufferById(customOutput);
-        break;
+        return this._getFrameBufferById(idOrBuffer);
 
       case 'object':
-        frameBuffer = customOutput;
-        break;
+        return idOrBuffer;
     }
-    
-    
-    return frameBuffer.getRenderTarget();
   }
 
 }
