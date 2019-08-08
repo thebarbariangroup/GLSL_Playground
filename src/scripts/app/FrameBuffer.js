@@ -64,7 +64,7 @@ export default class FrameBuffer {
   }
 
   _createTexture () {
-    const sourceType = this.source.constructor.name;
+    const sourceType = this.source && this.source.constructor.name;
 
     switch (sourceType) {
       case 'Webcam':
@@ -75,22 +75,27 @@ export default class FrameBuffer {
         return texture;
       case 'FrameBuffer':
         return this.source.getOutput();
+      default: 
+        return new THREE.Texture();
     }
   }
 
   _createGeometry () {
+    const renderer = this.renderer;
+    const source = this.source || this.renderer;
+
     const d = {
       renderer: {
-        width: this.renderer.getWidth(),
-        height: this.renderer.getHeight(),
-        wh: this.renderer.getWidth()/this.renderer.getHeight(),
-        hw: this.renderer.getHeight()/this.renderer.getWidth()
+        width: renderer.getWidth(),
+        height: renderer.getHeight(),
+        wh: renderer.getWidth()/renderer.getHeight(),
+        hw: renderer.getHeight()/renderer.getWidth()
       },
       source: {
-        width: this.source.getWidth(),
-        height: this.source.getHeight(),
-        wh: this.source.getWidth()/this.source.getHeight(),
-        hw: this.source.getHeight()/this.source.getWidth()
+        width: source.getWidth(),
+        height: source.getHeight(),
+        wh: source.getWidth()/source.getHeight(),
+        hw: source.getHeight()/source.getWidth()
       }
     };
 
@@ -116,11 +121,13 @@ export default class FrameBuffer {
   }
 
   getWidth () {
-    return this.source.getWidth();
+    const source = this.source || this.renderer;
+    return source.getWidth();
   }
 
   getHeight () {
-    return this.source.getHeight();
+    const source = this.source || this.renderer;
+    return source.getHeight();
   }
 
   get () {
