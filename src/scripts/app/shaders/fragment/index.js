@@ -2,6 +2,7 @@ import _base from './_base.frag';
 
 import addFrameBuffers from './addFrameBuffers.frag';
 import bilateral from './bilateral.frag';
+import bleed from './bleed.frag';
 import blockThreshold from './blockThreshold.frag';
 import edgeDetection from './edgeDetection.frag';
 import fastBlur from './fastBlur.frag';
@@ -18,6 +19,7 @@ import spirals from './spirals.frag';
 export default {
   base: _base,
   addFrameBuffers,
+  bleed,
   bilateral,
   blockThreshold,
   edgeDetection,

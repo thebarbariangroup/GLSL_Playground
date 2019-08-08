@@ -43,13 +43,7 @@ export default function ({ webcam, renderer }) {
     },
     {
       shaders: {
-        fs: fs.polarRadar,
-      }
-    },
-    {
-      id: 'smoke0',
-      shaders: {
-        fs: fs.smoke,
+        fs: fs.bleed,
       },
       uniforms: {
         uImage1: 'edge0',
