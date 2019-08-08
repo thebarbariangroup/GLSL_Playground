@@ -2,6 +2,7 @@ const LO_DEF = [640, 360];
 const MD_DEF = [1280, 720];
 const HI_DEF = [2560, 1440];
 const SH_DEF = [5120, 2880];
+const SQUARE = [512, 512];
 
 export default class Renderer {
 
@@ -14,25 +15,12 @@ export default class Renderer {
 
     this._setup();
     this.renderObjects = [];
+    this.frameBuffers = [];
   }
 
   _setup () {
     this._setResolution();
-
-    this.scene = new THREE.Scene();
     const d = this._getDimensions(true);
-
-    this.camera = new THREE.OrthographicCamera(
-      d.width/-2,  
-      d.width/2, 
-      d.height/2, 
-      d.height/-2, 
-      1, 
-      1000
-    );
-    this.camera.position.set(0, 0, 90);
-    this.camera.rotation.x = Math.PI / 180;
-
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(d.width, d.height);
@@ -51,6 +39,7 @@ export default class Renderer {
       mid: MD_DEF,
       high: HI_DEF,
       super: SH_DEF,
+      square: SQUARE,
     };
 
     const queryString = location.search.replace('?', '');
@@ -84,18 +73,16 @@ export default class Renderer {
 
   animate () {
     requestAnimationFrame(() => {
-      this.renderer.render( this.scene, this.camera );
-      this.animate();
-
-      this.renderObjects.forEach((object) => {
-        object.update();
+      this.frameBuffers.forEach((frameBuffer) => {
+        frameBuffer.update();
       });
+
+      this.animate();
     });
   }
 
-  add (object) {
-    this.renderObjects.push(object);
-    this.scene.add(object.get());
+  addFrameBuffer (frameBuffer) {
+    this.frameBuffers.push(frameBuffer);
   }
 
   getHeight() {

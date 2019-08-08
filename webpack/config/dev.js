@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const dist = path.resolve(__dirname, '../../dist')
 
 module.exports = {
   mode: 'development',
@@ -13,7 +14,7 @@ module.exports = {
   devtool: 'inline-source-map',
   output: {
     filename: 'app.js',
-    path: path.resolve(__dirname, '../../dist')
+    path: dist
   },
   module: {
     rules: [
@@ -38,7 +39,7 @@ module.exports = {
         }
       },
       {
-          test: /\.glsl$/,
+          test: [/\.glsl$/, /\.frag$/, /\.vert$/],
           loader: 'webpack-glsl-loader'
       }
     ]
@@ -49,10 +50,11 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
+    new CopyPlugin([
+      { from: './src/resources', to: path.join(dist, 'resources')}
+    ]),
   ],
   devServer: {
-    contentBase: path.join(__dirname, '../../dist'),
+    contentBase: dist,
   }
 };
-
-    // './src/scripts/lib/opencv.js', 

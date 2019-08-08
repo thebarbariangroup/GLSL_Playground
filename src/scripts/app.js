@@ -2,25 +2,28 @@ import '../styles/main.scss';
 import * as THREE from 'three';
 window.THREE = THREE;
 
+import bufferFactory from './app/shaders/presets';
+
 import Renderer from './app/Renderer';
 import Webcam from './app/Webcam';
-import Screen from './app/Screen';
 
 const webcam = new Webcam();
+const renderer = new Renderer();
 
 webcam.initializeCamera()
 .then(() => {
   return webcam.beginStream();
 })
 .then(() => {
-  const renderer = new Renderer();
-  
-  const screen = new Screen({
-    renderer: renderer,
-    source: webcam,
+  const frameBuffers = bufferFactory({
+    webcam,
+    renderer,
   });
-
-  renderer.add(screen);
+  
+  frameBuffers.forEach((frameBuffer) => {
+    renderer.addFrameBuffer(frameBuffer);
+  });
+  
   renderer.animate();
 });
 
