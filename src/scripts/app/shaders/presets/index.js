@@ -4,6 +4,11 @@ import fs from '../fragment/index';
 
 
 export default function ({ webcam, renderer }) {
+
+  const circles = [
+    new THREE.Vector4( 0.5,  0.5,  0.0,  0.0 ),
+  ];
+
   const outputFactory = new FrameBufferFactory({
     renderer: renderer,
     shaders: {
@@ -26,12 +31,14 @@ export default function ({ webcam, renderer }) {
   const frameBuffers = renderFactory.create([
     {
       shaders: {
-        fs: fs.slices
+        fs: fs.test,
       },
-    },
-    {
-      shaders: {
-        fs: fs.greyscale
+      uniforms: {
+        data: {
+          _type: "object",
+          type: "v4v",
+          value: circles,
+        },
       },
     },
   ]);

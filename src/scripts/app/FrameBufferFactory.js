@@ -59,9 +59,16 @@ export default class FrameBufferFactory {
   _setUniforms (customUniforms) {
     for (let key in customUniforms) {
       const value = customUniforms[key];
-      // Assuming for now that all custom Uniforms are IDs of framebuffers that we need to get the texture of.
-      const frameBuffer = this._getFrameBuffer(value);
-      customUniforms[key] = { value: frameBuffer.getOutput() }
+
+      switch (value._type) {
+        case "object": 
+          customUniforms[key] = value;
+          break;
+        default:
+          const frameBuffer = this._getFrameBuffer(value);
+          customUniforms[key] = { value: frameBuffer.getOutput() };
+          break;
+      }
     }
 
     return customUniforms;

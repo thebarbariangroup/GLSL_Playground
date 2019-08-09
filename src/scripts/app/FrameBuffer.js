@@ -42,18 +42,9 @@ export default class FrameBuffer {
 
   _createPlane () {
     this.texture = this._createTexture();
-
-    const uniforms = {
-      uImage0: { value: this.texture },
-      uResolution: {
-        value: [this.renderer.getWidth(), this.renderer.getHeight(), 0],
-        resolution: new THREE.Uniform(new THREE.Vector3())
-      },
-      uTime: { value: this.timeStarted },
-    };
-    Object.assign(uniforms, this.customUniforms);
-
+    const uniforms = this._createUniforms();
     const geometry = this._createGeometry();
+
     const material = new THREE.ShaderMaterial({
       uniforms: uniforms,
       vertexShader: this.shaders.vs,
@@ -78,6 +69,20 @@ export default class FrameBuffer {
       default: 
         return new THREE.Texture();
     }
+  }
+
+  _createUniforms () {
+    const uniforms = {
+      uImage0: { value: this.texture },
+      uResolution: {
+        value: [this.renderer.getWidth(), this.renderer.getHeight(), 0],
+        resolution: new THREE.Uniform(new THREE.Vector3())
+      },
+      uTime: { value: this.timeStarted },
+    };
+    Object.assign(uniforms, this.customUniforms);
+
+    return uniforms;
   }
 
   _createGeometry () {
