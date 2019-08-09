@@ -11,7 +11,15 @@ export default function ({ webcam, renderer }) {
       fs: fs.base,
     }
   });
-  const outputBuffers = outputFactory.create([]);
+
+  const outputBuffers = outputFactory.create([
+    {
+      id: 'o0',
+    },
+  ]);
+
+  const outputBuffer = outputBuffers[0];
+
 
   const renderFactory = new FrameBufferFactory({
     renderer: renderer,
@@ -25,15 +33,24 @@ export default function ({ webcam, renderer }) {
 
   const frameBuffers = renderFactory.create([
     {
+      id: 'edge0',
       shaders: {
-        fs: fs.slices
+        fs: fs.edgeDetection
       },
     },
     {
-      shaders: {
-        fs: fs.greyscale
-      },
+      source: outputBuffer,
     },
+    {
+      shaders: {
+        fs: fs.bleed,
+      },
+      uniforms: {
+        uImage1: 'edge0',
+      },
+      output: outputBuffer,
+    },
+    {}
   ]);
 
   return frameBuffers;

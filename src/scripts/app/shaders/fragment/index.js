@@ -12,7 +12,11 @@ import greyscale from './greyscale.frag';
 import polarRadar from './polarRadar.frag';
 import test from './test.frag';
 import twister from './twister.frag';
+import rainbow from './rainbow.frag';
+import ripple from './ripple.frag';
+import slices from './slices.frag';
 import smoke from './smoke.frag';
+import sobel from './sobel.frag';
 import spaghetti from './spaghetti.frag';
 import spirals from './spirals.frag';
 
@@ -30,7 +34,11 @@ export default {
   polarRadar,
   test,
   twister,
+  rainbow,
+  ripple,
+  slices,
   smoke,
+  sobel,
   spaghetti,
   spirals,
 }
