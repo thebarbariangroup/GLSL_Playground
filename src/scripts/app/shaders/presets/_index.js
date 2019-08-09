@@ -1,3 +1,5 @@
+import test from './_test';
+
 import bleed from './bleed';
 import blockThreshold from './blockThreshold';
 import checks from './checks';
@@ -15,6 +17,7 @@ import ripple from './ripple';
 import slices from './slices';
 
 export default {
+  test,
   bleed,
   blockThreshold,
   checks,
