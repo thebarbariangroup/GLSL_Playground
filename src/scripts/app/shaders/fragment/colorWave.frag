@@ -6,8 +6,8 @@ varying vec2 vTexCoord;
 
 void main() {
   vec2 uv = vTexCoord;
-  vec4 c = texture2D(iChannel0,uv);
+  vec4 c = texture2D(uImage0, uv);
   c = sin(uv.x*10.+c*cos(c*6.28+uTime+uv.x)*sin(c+uv.y+uTime)*6.28)*.5+.5;
   c.b+=length(c.rg);
-  fragColor = c;
+  gl_FragColor = c;
 }
