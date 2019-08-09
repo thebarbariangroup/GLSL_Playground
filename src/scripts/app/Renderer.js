@@ -2,7 +2,7 @@ const LO_DEF = [640, 360];
 const MD_DEF = [1280, 720];
 const HI_DEF = [2560, 1440];
 const SH_DEF = [5120, 2880];
-const SQUARE = [512, 512];
+const SQUARE = [800, 600];
 
 export default class Renderer {
 
@@ -24,7 +24,7 @@ export default class Renderer {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(d.width, d.height);
-    this.renderer.domElement.id = 'renderer';
+    this.renderer.domElement.classList.add('renderer');
     document.getElementById('rendererContainer').appendChild(this.renderer.domElement);
   }
 

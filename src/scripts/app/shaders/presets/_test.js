@@ -1,10 +1,8 @@
 import FrameBufferFactory from '../../FrameBufferFactory';
 import vs from '../vertex/default.vert';
-import fs from '../fragment/index';
-
+import fs from '../fragment/_index';
 
 export default function ({ webcam, renderer }) {
-
   const circles = [
     new THREE.Vector4( 0.5,  0.5,  0.0,  0.0 ),
   ];
@@ -25,7 +23,6 @@ export default function ({ webcam, renderer }) {
       vs: vs,
       fs: fs.base,
     },
-    outputs: outputBuffers,
   });
 
   const frameBuffers = renderFactory.create([

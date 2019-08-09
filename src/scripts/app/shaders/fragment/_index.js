@@ -4,11 +4,17 @@ import addFrameBuffers from './addFrameBuffers.frag';
 import bilateral from './bilateral.frag';
 import bleed from './bleed.frag';
 import blockThreshold from './blockThreshold.frag';
+import checks from './checks.frag';
+import colorWave from './colorWave.frag';
+import dither from './dither.frag';
+import ditherAngled from './ditherAngled.frag';
 import edgeDetection from './edgeDetection.frag';
 import fastBlur from './fastBlur.frag';
 import fractal from './fractal.frag';
 import gaussian from './gaussian.frag';
 import greyscale from './greyscale.frag';
+import invert from './invert.frag';
+import pixelate from './pixelate.frag';
 import polarRadar from './polarRadar.frag';
 import test from './test.frag';
 import twister from './twister.frag';
@@ -26,11 +32,17 @@ export default {
   bleed,
   bilateral,
   blockThreshold,
+  checks,
+  colorWave,
+  dither,
+  ditherAngled,
   edgeDetection,
   fastBlur,
   fractal,
   gaussian,
   greyscale,
+  invert,
+  pixelate,
   polarRadar,
   test,
   twister,
