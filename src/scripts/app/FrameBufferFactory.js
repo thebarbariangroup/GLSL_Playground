@@ -17,6 +17,7 @@ export default class FrameBufferFactory {
       const source = this._setSource(opts.source);
       const shaders = this._setShaders(opts.shaders);
       const uniforms = this._setUniforms(opts.uniforms);
+      const customUpdate = opts.customUpdate || function () {};
       const output = this._setOutput(opts.output);
 
       const frameBuffer = new FrameBuffer({
@@ -26,6 +27,7 @@ export default class FrameBufferFactory {
         source,
         shaders,
         uniforms,
+        customUpdate,
         output,
       });
 

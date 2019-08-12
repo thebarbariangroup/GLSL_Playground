@@ -7,6 +7,7 @@ export default class FrameBuffer {
     this.source = opts.source;
     this.shaders = opts.shaders || {};
     this.customUniforms = opts.uniforms || {};
+    this.customUpdate = opts.customUpdate || function () {};
     this.output = opts.output || null;
     
     this.texture = null;
@@ -147,6 +148,8 @@ export default class FrameBuffer {
     this.renderer.renderer.setRenderTarget(null);
 
     this.get().material.uniforms.uTime.value = Date.now() / 1000 - this.timeStarted;
+
+    this.customUpdate();
   }
 
 }

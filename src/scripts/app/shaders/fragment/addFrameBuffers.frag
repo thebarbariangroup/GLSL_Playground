@@ -9,5 +9,5 @@ void main() {
  vec4 c0 = texture2D(uImage0, vTexCoord); 
  vec4 c1 = texture2D(uImage1, vTexCoord);
 
- gl_FragColor = c0 + c1;
+ gl_FragColor = c1 + (c0 * 0.97);
 }
