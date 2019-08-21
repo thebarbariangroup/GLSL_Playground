@@ -3,53 +3,46 @@ import vs from '../vertex/default.vert';
 import fs from '../fragment/_index';
 
 export default function ({ webcam, renderer }) {
-  const outputFactory = new FrameBufferFactory({
-    renderer: renderer,
-    shaders: {
-      vs: vs,
-      fs: fs.base,
-    }
-  });
-
-  const outputBuffers = outputFactory.create([
-    {
-      id: 'o0',
-    },
-  ]);
-
-  const outputBuffer = outputBuffers[0];
-
 
   const renderFactory = new FrameBufferFactory({
     renderer: renderer,
-    source: webcam,
     shaders: {
       vs: vs,
       fs: fs.base,
     },
-    outputs: outputBuffers,
   });
 
   const frameBuffers = renderFactory.create([
+    // saved buffers
     {
-      id: 'edge0',
+      id: 'o0',
+    },
+    // end saved buffers
+    {
+      id: 'o1',
+      source: 'o0',
+    },
+    {
+      id: 'w0',
+      source: webcam,
       shaders: {
-        fs: fs.edgeDetection
+        fs: fs.sobel
       },
     },
     {
-      source: outputBuffer,
-    },
-    {
+      id: 'b0',
+      source: 'o1',
       shaders: {
-        fs: fs.bleed,
+        fs: fs.bleed
       },
       uniforms: {
-        uImage1: 'edge0',
+        uImage1: 'w0',
       },
-      output: outputBuffer,
+      output: 'o0',
     },
-    {}
+    {
+      source: 'o0',
+    },
   ]);
 
   return frameBuffers;

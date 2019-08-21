@@ -21,6 +21,7 @@ webcam.initializeCamera()
   });
   
   frameBuffers.forEach((frameBuffer) => {
+    if (!frameBuffer.source) { return; }
     renderer.addFrameBuffer(frameBuffer);
   });
   

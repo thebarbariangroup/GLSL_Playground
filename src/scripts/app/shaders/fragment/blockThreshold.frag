@@ -14,6 +14,6 @@ void main() {
 
   float grey = 0.21 * color.r + 0.71 * color.g + 0.07 * color.b;
 
-  float vstep = step(grey, 0.3);
+  float vstep = step(grey, 0.4);
   gl_FragColor = vec4(vec3(vstep), 1.);
 }

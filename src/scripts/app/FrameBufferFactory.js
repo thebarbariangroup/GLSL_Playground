@@ -4,12 +4,12 @@ export default class FrameBufferFactory {
 
   constructor (opts) {
     this.renderer = opts.renderer;
-    this.source = opts.source;
+    // this.source = opts.source;
     this.shaders = opts.shaders;
 
 
     this.frameBuffers = [];
-    this.previousFrameBuffer = null;
+    // this.previousFrameBuffer = null;
   }
 
   create (fragmentShaders) {
@@ -45,11 +45,14 @@ export default class FrameBufferFactory {
   }
 
   _setSource (customSource) {
-    const defaultSource = this.previousFrameBuffer || this.source;
-    if (!customSource) { return defaultSource; }
+    // const defaultSource = this.previousFrameBuffer || this.source;
+    // if (!customSource) { return defaultSource; }
     
-    const frameBuffer = this._getFrameBuffer(customSource);
-    return frameBuffer || defaultSource;
+    // const frameBuffer = this._getFrameBuffer(customSource);
+    // return frameBuffer || defaultSource;
+    if (!customSource) { return null; }
+
+    return this._getFrameBuffer(customSource);
   }
 
   _setShaders (customShaders) {
